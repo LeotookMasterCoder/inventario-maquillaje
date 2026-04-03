@@ -1,0 +1,27 @@
+<h1>Inventario Maquillaje</h1>
+
+<form [formGroup]="form" (ngSubmit)="guardar()">
+
+  <input formControlName="nombre" placeholder="Nombre">
+  <br>
+
+  <input formControlName="marca" placeholder="Marca">
+  <br>
+
+  <input type="number" formControlName="precio" placeholder="Precio">
+  <br>
+
+  <input type="number" formControlName="stock" placeholder="Stock">
+  <br>
+
+  <button type="submit">Guardar</button>
+
+</form>
+
+<hr>
+
+<ul>
+  <li *ngFor="let p of productos">
+    {{ p.nombre }} - {{ p.marca }} - {{ p.precio }} - {{ p.stock }}
+  </li>
+</ul>
