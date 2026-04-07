@@ -1,11 +1,12 @@
 package com.belleza.inventario.service;
 
+import java.util.Date;
+
 import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -14,21 +15,32 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
 
     @Value("${security.jwt.secret-key}")
-    private String secretKey;
+    private String secret;
 
-    private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+    @Value("${security.jwt.token-expiration}")
+    private long expiration;
+
+    private SecretKey getKey() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));
     }
 
-    public Boolean isTokenValid(String token) {
+    public String generarToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(getKey())
+                .compact();
+    }
+
+    public boolean isTokenValid(String token) {
         try {
             Jwts.parser()
-                    .verifyWith(getSigningKey())
+                    .verifyWith(getKey())
                     .build()
                     .parseSignedClaims(token);
             return true;
-        } catch (JwtException e) {
+        } catch (Exception e) {
             return false;
         }
     }
