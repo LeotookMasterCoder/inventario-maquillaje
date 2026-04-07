@@ -10,7 +10,7 @@ import com.belleza.inventario.filter.JwtValidationFilter;
 public class FilterConfig {
 
     @Bean
-    FilterRegistrationBean<JwtValidationFilter> jwtFilter(JwtValidationFilter filter) {
+    public FilterRegistrationBean<JwtValidationFilter> jwtFilter(JwtValidationFilter filter) {
 
         FilterRegistrationBean<JwtValidationFilter> registration = new FilterRegistrationBean<>();
 

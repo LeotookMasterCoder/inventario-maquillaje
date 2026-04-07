@@ -1,0 +1,13 @@
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\config\AppConfig.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\config\FilterConfig.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\controllers\AuthController.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\controllers\ProductoController.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\dto\MessageResponseDTO.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\dto\ProductoRequestDTO.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\dto\ProductoResponseDTO.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\entity\Producto.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\filter\JwtValidationFilter.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\InventarioApplication.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\repository\ProductoRepository.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\service\JwtService.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-maquillaje\backend\src\main\java\com\belleza\inventario\service\ProductoService.java

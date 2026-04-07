@@ -21,13 +21,11 @@ public class ProductoService {
     }
 
     public Producto guardar(ProductoRequestDTO dto) {
-
         Producto p = new Producto();
         p.setNombre(dto.getNombre());
         p.setMarca(dto.getMarca());
         p.setPrecio(dto.getPrecio());
         p.setStock(dto.getStock());
-
         return repository.save(p);
     }
 
