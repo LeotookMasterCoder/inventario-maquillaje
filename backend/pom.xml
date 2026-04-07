@@ -8,10 +8,10 @@
         <version>4.0.2</version>
         <relativePath/>
     </parent>
-    <groupId>com.manada</groupId>
-    <artifactId>usuarios</artifactId>
+    <groupId>com.belleza</groupId>
+    <artifactId>inventario</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>usuarios</name>
+    <name>inventario</name>
     <description>Proyecto sencillo de gestión de inventario de belleza</description>
     <properties>
         <java.version>17</java.version>

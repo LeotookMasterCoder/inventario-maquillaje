@@ -1,0 +1,13 @@
+com\belleza\inventario\config\FilterConfig.class
+com\belleza\inventario\entity\Producto.class
+com\belleza\inventario\dto\ProductoRequestDTO.class
+com\belleza\inventario\controllers\ProductoController.class
+com\belleza\inventario\controllers\AuthController.class
+com\belleza\inventario\service\ProductoService.class
+com\belleza\inventario\service\JwtService.class
+com\belleza\inventario\InventarioApplication.class
+com\belleza\inventario\filter\JwtValidationFilter.class
+com\belleza\inventario\dto\ProductoResponseDTO.class
+com\belleza\inventario\config\AppConfig.class
+com\belleza\inventario\repository\ProductoRepository.class
+com\belleza\inventario\dto\MessageResponseDTO.class

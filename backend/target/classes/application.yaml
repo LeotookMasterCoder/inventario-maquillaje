@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: inventario
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/inventario
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 8081
+
+security:
+  jwt:
+    secret-key: wRJ9Jh05ec02ffJEILZ6GR6FZhu8t7j9UApaDJ7pvUw=
+    token-expiration: 600000
