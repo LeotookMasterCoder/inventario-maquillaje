@@ -13,10 +13,7 @@ public class Producto {
     private Long id;
 
     private String nombre;
-
     private String marca;
-
     private Double precio;
-
     private Integer stock;
 }
