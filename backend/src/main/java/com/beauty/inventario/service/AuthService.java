@@ -3,32 +3,34 @@ package com.beauty.inventario.service;
 import com.beauty.inventario.dto.*;
 import com.beauty.inventario.entity.*;
 import com.beauty.inventario.repository.*;
-import com.beauty.inventario.service.JwtService;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private RoleRepository roleRepository;
-    @Autowired private JwtService jwtService;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final JwtService jwtService;
 
-    public String register(AuthRequest request) {
+    public AuthService(UserRepository userRepository,
+                       RoleRepository roleRepository,
+                       JwtService jwtService) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.jwtService = jwtService;
+    }
 
-        Role role = roleRepository.findById(request.getRoleId())
+    public void register(RegisterRequest request) {
+
+        Role role = roleRepository.findByName(request.getRole())
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         User user = new User();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setBalance(request.getBalance());
         user.setRole(role);
 
         userRepository.save(user);
-
-        return "User registered successfully";
     }
 
     public AuthResponse login(AuthRequest request) {

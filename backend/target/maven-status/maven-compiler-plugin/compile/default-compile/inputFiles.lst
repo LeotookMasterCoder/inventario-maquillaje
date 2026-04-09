@@ -1,4 +1,5 @@
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\entity\Role.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\service\PurchaseService.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\dto\AuthRequest.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\dto\AuthResponse.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\service\JwtService.java
@@ -9,7 +10,10 @@ C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\controller\AuthController.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\repository\UserRepository.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\service\ProductService.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\dto\PurchaseRequest.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\InventoryApplication.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\repository\PurchaseRepository.java
+C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\entity\Purchase.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\repository\RoleRepository.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\controller\PurchaseController.java
 C:\Users\HP\Documents\Visual Studio\Instructor Mike\Springboot\inventario-beauty\backend\src\main\java\com\beauty\inventario\dto\LoginRequest.java

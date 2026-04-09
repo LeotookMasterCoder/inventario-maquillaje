@@ -1,23 +1,34 @@
 package com.beauty.inventario.config;
 
 import com.beauty.inventario.security.JwtFilter;
-import com.beauty.inventario.service.JwtService;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.*;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.*;
 
 @Configuration
 public class SecurityConfig {
 
+    private final JwtFilter jwtFilter;
+
+    public SecurityConfig(JwtFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
+
     @Bean
-    public FilterRegistrationBean<JwtFilter> jwtFilter(JwtService jwtService) {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(csrf -> csrf.disable())
+                .httpBasic(httpBasic -> httpBasic.disable())
+                .formLogin(form -> form.disable())
 
-        JwtFilter filter = new JwtFilter(jwtService);
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                )
 
-        FilterRegistrationBean<JwtFilter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(filter);
-        registration.addUrlPatterns("/products/*", "/purchase/*");
+                .addFilterBefore(jwtFilter,
+                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);
 
-        return registration;
+        return http.build();
     }
 }

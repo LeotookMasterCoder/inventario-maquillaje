@@ -1,40 +1,62 @@
 package com.beauty.inventario.controller;
 
-import com.beauty.inventario.entity.*;
-import com.beauty.inventario.repository.*;
-import com.beauty.inventario.service.JwtService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.beauty.inventario.dto.PurchaseRequest;
+import com.beauty.inventario.entity.Purchase;
+import com.beauty.inventario.service.PurchaseService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/purchase")
+@RequestMapping("/purchases")
 public class PurchaseController {
 
-    @Autowired private ProductRepository productRepository;
-    @Autowired private UserRepository userRepository;
-    @Autowired private JwtService jwtService;
+    private final PurchaseService service;
 
-    @PostMapping("/{productId}")
-    public String purchase(@PathVariable Long productId,
-                           @RequestHeader("Authorization") String header) {
+    public PurchaseController(PurchaseService service) {
+        this.service = service;
+    }
 
-        String token = header.replace("Bearer ", "");
+    @PostMapping
+    public Purchase create(@RequestBody PurchaseRequest request,
+                           HttpServletRequest http) {
 
-        String email = jwtService.extractEmail(token);
+        String role = (String) http.getAttribute("role");
 
-        User user = userRepository.findByEmail(email).orElseThrow();
-        Product product = productRepository.findById(productId).orElseThrow();
+        if (!role.equals("CLIENT")) {
+            throw new RuntimeException("Only clients can purchase");
+        }
 
-        if (product.getStock() <= 0) return "Out of stock";
-        if (user.getBalance() < product.getPrice()) return "Insufficient balance";
+        return service.create(
+                request.getUserId(),
+                request.getProductId(),
+                request.getQuantity()
+        );
+    }
 
-        product.setStock(product.getStock() - 1);
-        user.setBalance(user.getBalance() - product.getPrice());
+    @GetMapping
+    public List<Purchase> getAll(HttpServletRequest http) {
 
-        productRepository.save(product);
-        userRepository.save(user);
+        String role = (String) http.getAttribute("role");
 
-        return "Purchase successful";
+        if (!role.equals("WORKER") && !role.equals("ADMIN")) {
+            throw new RuntimeException("Access denied");
+        }
+
+        return service.getAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id,
+                       HttpServletRequest http) {
+
+        String role = (String) http.getAttribute("role");
+
+        if (!role.equals("ADMIN")) {
+            throw new RuntimeException("Only admin can delete");
+        }
+
+        service.delete(id);
     }
 }

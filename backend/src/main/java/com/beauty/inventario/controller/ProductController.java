@@ -1,8 +1,8 @@
 package com.beauty.inventario.controller;
 
 import com.beauty.inventario.entity.Product;
-import com.beauty.inventario.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.beauty.inventario.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,25 +11,40 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    private ProductRepository repo;
+    private final ProductService service;
 
-    @PostMapping
-    public Product create(@RequestBody Product p) {
-        return repo.save(p);
+    public ProductController(ProductService service) {
+        this.service = service;
     }
 
     @GetMapping
-    public List<Product> list() {
-        return repo.findAll();
+    public List<Product> getAll() {
+        return service.getAll();
     }
 
-    @PutMapping("/{id}")
-    public Product update(@PathVariable Long id, @RequestBody Product p) {
-        Product product = repo.findById(id).orElseThrow();
-        product.setName(p.getName());
-        product.setPrice(p.getPrice());
-        product.setStock(p.getStock());
-        return repo.save(product);
+    @PostMapping
+    public Product save(@RequestBody Product product,
+                        HttpServletRequest request) {
+
+        String role = (String) request.getAttribute("role");
+
+        if (!role.equals("WORKER") && !role.equals("ADMIN")) {
+            throw new RuntimeException("Access denied");
+        }
+
+        return service.save(product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id,
+                       HttpServletRequest request) {
+
+        String role = (String) request.getAttribute("role");
+
+        if (!role.equals("ADMIN")) {
+            throw new RuntimeException("Access denied");
+        }
+
+        service.delete(id);
     }
 }
