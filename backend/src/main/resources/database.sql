@@ -1,0 +1,17 @@
+CREATE DATABASE beauty_inventory;
+USE beauty_inventory;
+
+CREATE TABLE users (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+email VARCHAR(100),
+password VARCHAR(100),
+role VARCHAR(50)
+);
+
+CREATE TABLE products (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100),
+brand VARCHAR(100),
+price DOUBLE,
+stock INT
+);
