@@ -1,22 +1,24 @@
 CREATE DATABASE inventario_beauty;
 USE inventario_beauty;
 
+CREATE TABLE roles (
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(50)
+);
+
+INSERT INTO roles (name) VALUES ('CLIENTE'), ('TRABAJADOR'), ('ADMIN');
+
 CREATE TABLE users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+email VARCHAR(100),
+password VARCHAR(255),
+role_id BIGINT,
+FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
 CREATE TABLE products (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price DOUBLE NOT NULL,
-    stock INT NOT NULL
-);
-
-INSERT INTO users (username, password, role) VALUES (
-    'admin',
-    '$2a$10$Dow1j5YdQWzQ0nYqK0VY5uH3F5FhFhFhFhFhFhFhFhFhFhFhFhFhF',
-    'ADMIN'
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100),
+price DOUBLE,
+stock INT
 );

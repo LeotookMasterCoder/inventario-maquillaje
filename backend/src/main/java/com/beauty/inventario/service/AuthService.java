@@ -1,52 +1,68 @@
 package com.beauty.inventario.service;
 
 import com.beauty.inventario.dto.*;
-import com.beauty.inventario.entity.*;
-import com.beauty.inventario.repository.*;
+import com.beauty.inventario.entity.User;
+import com.beauty.inventario.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     public AuthService(UserRepository userRepository,
-                       RoleRepository roleRepository,
+                       PasswordEncoder passwordEncoder,
                        JwtService jwtService) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
-    public void register(RegisterRequest request) {
+    public String register(RegisterRequest req) {
 
-        Role role = roleRepository.findByName(request.getRole())
-                .orElseThrow(() -> new RuntimeException("Role not found"));
+        if (userRepository.findByEmail(req.getEmail()).isPresent()) {
+            throw new RuntimeException("Email ya existe");
+        }
 
         User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(role);
+        user.setEmail(req.getEmail());
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+        user.setBalance(req.getBalance());
+        user.setRoleId(req.getRoleId());
 
         userRepository.save(user);
+
+        return "Registro exitoso";
     }
 
-    public AuthResponse login(AuthRequest request) {
+    public LoginResponse login(LoginRequest req) {
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Optional<User> userOpt = userRepository.findByEmail(req.getEmail());
 
-        if (!user.getPassword().equals(request.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+        if (userOpt.isEmpty()) {
+            throw new RuntimeException("Usuario no existe");
+        }
+
+        User user = userOpt.get();
+
+        if (!passwordEncoder.matches(req.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password incorrecto");
         }
 
         String token = jwtService.generateToken(
+                user.getId(),
                 user.getEmail(),
-                user.getRole().getName()
+                user.getRoleId()
         );
 
-        return new AuthResponse(token);
+        LoginResponse res = new LoginResponse();
+        res.setToken(token);
+
+        return res;
     }
 }

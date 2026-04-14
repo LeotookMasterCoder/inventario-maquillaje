@@ -20,13 +20,13 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain chain)
+                                    FilterChain filterChain)
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
 
-        if (path.contains("/auth")) {
-            chain.doFilter(request, response);
+        if (path.startsWith("/auth")) {
+            filterChain.doFilter(request, response);
             return;
         }
 
@@ -46,8 +46,9 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        request.setAttribute("role", jwtService.extractRole(token));
+        request.setAttribute("userId", jwtService.extractUserId(token));
+        request.setAttribute("rolId", jwtService.extractRolId(token));
 
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 }

@@ -5,51 +5,73 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 @Service
 public class JwtService {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    @Value("${security.jwt.secret-key}")
+    private String secretKey;
 
-    @Value("${jwt.expiration}")
-    private long expiration;
+    @Value("${security.jwt.token-expiration}")
+    private Long expiration;
 
-    private Key getKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
+    private SecretKey getKey() {
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    public String generateToken(String email, String role) {
+    public String generateToken(Long userId, String username, Long rolId) {
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("rolId", rolId);
+
         return Jwts.builder()
-                .setSubject(email)
-                .claim("role", role)
+                .setClaims(claims)
+                .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(getKey())
+                .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean isTokenValid(String token) {
+    public Boolean isTokenValid(String token) {
         try {
             Jwts.parserBuilder()
                     .setSigningKey(getKey())
                     .build()
                     .parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
+        } catch (JwtException e) {
             return false;
         }
     }
 
-    public String extractRole(String token) {
-        Claims claims = Jwts.parserBuilder()
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
                 .setSigningKey(getKey())
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
 
-        return claims.get("role", String.class);
+    public <T> T extractClaim(String token, Function<Claims, T> resolver) {
+        return resolver.apply(extractAllClaims(token));
+    }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class));
+    }
+
+    public Long extractRolId(String token) {
+        return extractClaim(token, claims -> claims.get("rolId", Long.class));
     }
 }
